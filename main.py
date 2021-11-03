@@ -82,24 +82,31 @@ with open('diabetes.csv','r') as file:
 
 
 def overall_plot():
-
+    x =[0,1]
+    y =[]
+    y.append(neg_cases)
+    y.append(pos_cases)
     # creating a hisogram of all cases
     plt.figure(figsize=(10,6))
-    plt.bar(outcomes, height=[100,200,300,400,500])
-    #plt.hist(outcomes,bins =2)
+    plt.bar(x, height = y,  width = 0.1,color =['red', 'green'])
+    #plt.hist(outcomes,bins =2,color ='lightblue')
+
+    
+    
+    
 
     ## labeling and titling the graph
     plt.title("Diabetics in Pregnant women")
     plt.xlabel("Outcome")
     plt.ylabel("Cases")
-    plt.legend(["Diabetics","No Diabetics"])
+    #plt.legend(["Diabetics","No Diabetics"])
 
-    plt.xticks(outcomes, ['0','1'])
+    #plt.xticks(outcomes, ['0','1'])
     ## setting the axis values
-    #x = [0,1]
-   # y= [100,200,300,400,500]
+    xaxis = [0,1]
+    #y= [100,200,300,400,500]
     
-    #plt.xticks(x,x)
+    plt.xticks(x,xaxis)
     #plt.yticks(y,y)
 
  
@@ -132,30 +139,57 @@ def pregnancy_age_plot():
     #plt.plot(x, y)
     plt.show()
     
+
+#creates plot based on pedigree and insulin
 def pedigree_insulin_plot():
     
     ## creating the scatter plot
     plt.figure(figsize=(10,6))
     plt.scatter(pos_insulin, pos_pedigree, c='green')
-    plt.scatter(neg_age, neg_preg, c='red')
+    plt.scatter(neg_insulin, neg_pedigree, c='red')
     
     ## labeling and titling the graph
     plt.title("Diabetics in Pregnant women")
-    plt.xlabel("Age")
-    plt.ylabel("Pregnancies")
+    plt.xlabel("insulin")
+    plt.ylabel("pedigree function")
     plt.legend(["Diabetics","No Diabetics"])
     
 
     ## setting the axis values
-    x = [20,30,40,50,60,70,80]
-    y= [0,3,6,9,12,15,17]
+    x = [0,100,200,300,400,500,600,700,800,900]
+    y= [0,0.2,0.4,0.6,0.8,1,1.2,1.4,1.6,1.8,2.0,2.2,2.4]
     
     plt.xticks(x,x)
     plt.yticks(y,y)
 
     #plt.plot(x, y)
     plt.show()
-  
+################################
+#pedigree and preganices plot
+def pedigree_pregancies_plot():
+    
+    ## creating the scatter plot
+    plt.figure(figsize=(10,6))
+    plt.scatter(pos_preg, pos_pedigree, c='green')
+    plt.scatter(neg_preg, neg_pedigree, c='red')
+    
+    ## labeling and titling the graph
+    plt.title("Diabetics in Pregnant women")
+    plt.xlabel("pregancies")
+    plt.ylabel("pedigree function")
+    plt.legend(["Diabetics","No Diabetics"])
+    
+
+    ## setting the axis values
+    x= [0,3,6,9,12,15,17]
+    y= [0,0.2,0.4,0.6,0.8,1,1.2,1.4,1.6,1.8,2.0,2.2,2.4]
+    
+    plt.xticks(x,x)
+    plt.yticks(y,y)
+
+    #plt.plot(x, y)
+    plt.show()
+  ########################
 def BMI_age_plot():
     
     ## creating the scatter plot
@@ -221,12 +255,17 @@ pregnancy_age_plot_button = Button(master = window, command = pregnancy_age_plot
 BMI_age_plot_button = Button(master = window, command = BMI_age_plot, height = 2,  width = 25, font=("Courier", 8), text = "Plot BMI & Age")
 outcome_button = Button(master = window, command = overall_plot, height = 2,  width = 25, font=("Courier", 8), text = "Outcome Plot")
 Pedigree_age_button = Button(master = window, command = Pedigree_age_plot, height = 2,  width = 25, font=("Courier", 8), text = "Predigree & Age Plot")
+insulin_pedigree_plot_button = Button(master = window, command = pedigree_insulin_plot, height = 2,  width = 25, font=("Courier", 8), text = "insulin and pedigree")
+pedigree_pregancies_plot_button = Button(master = window, command = pedigree_pregancies_plot, height = 2,  width = 25, font=("Courier", 8), text = "pedigree and pregancies")
+
 
 # into the window
 outcome_button.pack()
 pregnancy_age_plot_button.pack()
 BMI_age_plot_button.pack()
 Pedigree_age_button.pack()
+insulin_pedigree_plot_button.pack()
+pedigree_pregancies_plot_button.pack()
 
 
   
