@@ -1,85 +1,132 @@
 import csv
 
-from tkinter import * 
+from tkinter import *
+from tkinter import filedialog
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, 
 NavigationToolbar2Tk)
 import matplotlib.pyplot as plt 
 
-with open('diabetes.csv','r') as file:
-    reader = csv.DictReader(file)
+import pandas 
+from sklearn import metrics
 
-    outcomes = []
-    count = 0
-    ## positive attributes
-    pos_preg = []
-    pos_glucose = []
-    pos_blood_pres = []
-    pos_skin_thickness = []
-    pos_insulin = []
-    pos_BMI = []
-    pos_pedigree = []
-    pos_age = []
-    pos_outcomes = []
-    pos_cases = 0
-    
-     ## negative attributes
-    neg_preg = []
-    neg_glucose = []
-    neg_blood_pres = []
-    neg_skin_thickness = []
-    neg_insulin = []
-    neg_BMI = []
-    neg_pedigree = []
-    neg_age = []
-    neg_outcomes = []
-    neg_cases = 0
+from sklearn.metrics import confusion_matrix 
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.preprocessing import MinMaxScaler
 
-    # outcomes
-    outcomes = [0,1]
-    # reads each row in csv file
-    for row in reader:
-        #collects the attributes of women who tested positive
-        if row['Outcome'] == '1':
-            pos_preg.append(int(row['Pregnancies']))
-            pos_glucose.append(int(row['Glucose']))
-            pos_blood_pres.append(int(row['BloodPressure']))
-            pos_skin_thickness.append(int(row['SkinThickness']))
-            pos_insulin.append(int(row['Insulin']))
-            pos_BMI.append(float(row['BMI']))
-            pos_pedigree.append(float(row['DiabetesPedigreeFunction']))
-            pos_age.append(int(row['Age']))
-            pos_outcomes.append(int (row['Outcome']))
 
-            outcomes.append(int (row['Outcome']))
-            pos_cases += 1
 
+# need to pip install sklearn
+filename = "diabetes.csv"
+outcomes = []
+count = 0
+## positive attributes
+pos_preg = []
+pos_glucose = []
+pos_blood_pres = []
+pos_skin_thickness = []
+pos_insulin = []
+pos_BMI = []
+pos_pedigree = []
+pos_age = []
+pos_outcomes = []
+pos_cases = 0
             
+## negative attributes
+neg_preg = []
+neg_glucose = []
+neg_blood_pres = []
+neg_skin_thickness = []
+neg_insulin = []
+neg_BMI = []
+neg_pedigree = []
+neg_age = []
+neg_outcomes = []
+neg_cases = 0
+
+def uploadFileFromUser(event=None):
+    userFile = filedialog.askopenfilename()
+    print('Selected: ', userFile)
+    global filename
+    filename = userFile
+    getData(filename)
+
+
+
+def getData(userfile):
+    with open(userfile,'r') as file:
+            reader = csv.DictReader(file)
+
+            global outcomes
+            global count
+            ## positive attributes
+            global pos_preg
+            global pos_glucose
+            global pos_blood_pres
+            global pos_skin_thickness
+            global pos_insulin
+            global pos_BMI
+            global pos_pedigree
+            global pos_age
+            global pos_outcomes
+            global pos_cases
             
-            
+            ## negative attributes
+            global neg_preg
+            global neg_glucose
+            global neg_blood_pres
+            global neg_skin_thickness
+            global neg_insulin
+            global neg_BMI
+            global neg_pedigree
+            global neg_age
+            global neg_outcomes
+            global neg_cases
 
-      #collects the attributes of women who tested negative
-        if row['Outcome'] == '0':
-            neg_preg.append(int(row['Pregnancies']))
-            neg_glucose.append(int(row['Glucose']))
-            neg_blood_pres.append(int(row['BloodPressure']))
-            neg_skin_thickness.append(int(row['SkinThickness']))
-            neg_insulin.append(int(row['Insulin']))
-            neg_BMI.append(float(row['BMI']))
-            neg_pedigree.append(float(row['DiabetesPedigreeFunction']))
-            neg_age.append(int(row['Age']))
-            neg_outcomes.append(int(row['Outcome']))
+            # outcomes
+            outcomes = [0,1]
+            # reads each row in csv file
+            for row in reader:
+                #collects the attributes of women who tested positive
+                if row['Outcome'] == '1':
+                    pos_preg.append(int(row['Pregnancies']))
+                    pos_glucose.append(int(row['Glucose']))
+                    pos_blood_pres.append(int(row['BloodPressure']))
+                    pos_skin_thickness.append(int(row['SkinThickness']))
+                    pos_insulin.append(int(row['Insulin']))
+                    pos_BMI.append(float(row['BMI']))
+                    pos_pedigree.append(float(row['DiabetesPedigreeFunction']))
+                    pos_age.append(int(row['Age']))
+                    pos_outcomes.append(int (row['Outcome']))
 
-            outcomes.append(int (row['Outcome']))
-            neg_cases += 1
+                    outcomes.append(int (row['Outcome']))
+                    pos_cases += 1
+        
+                    
+                    
 
-        if count == 500:
-            break
-        count += 1
+            #collects the attributes of women who tested negative
+                if row['Outcome'] == '0':
+                    neg_preg.append(int(row['Pregnancies']))
+                    neg_glucose.append(int(row['Glucose']))
+                    neg_blood_pres.append(int(row['BloodPressure']))
+                    neg_skin_thickness.append(int(row['SkinThickness']))
+                    neg_insulin.append(int(row['Insulin']))
+                    neg_BMI.append(float(row['BMI']))
+                    neg_pedigree.append(float(row['DiabetesPedigreeFunction']))
+                    neg_age.append(int(row['Age']))
+                    neg_outcomes.append(int(row['Outcome']))
 
-#print(pos_age)
+                    outcomes.append(int (row['Outcome']))
+                    neg_cases += 1
 
+                if count == 500:
+                    break
+                count += 1
+     
 
+getData(filename) #run main function
 
 def overall_plot():
     x =[0,1]
@@ -257,9 +304,10 @@ outcome_button = Button(master = window, command = overall_plot, height = 2,  wi
 Pedigree_age_button = Button(master = window, command = Pedigree_age_plot, height = 2,  width = 25, font=("Courier", 8), text = "Predigree & Age Plot")
 insulin_pedigree_plot_button = Button(master = window, command = pedigree_insulin_plot, height = 2,  width = 25, font=("Courier", 8), text = "insulin and pedigree")
 pedigree_pregancies_plot_button = Button(master = window, command = pedigree_pregancies_plot, height = 2,  width = 25, font=("Courier", 8), text = "pedigree and pregancies")
-
+userInputFileButton = Button(master = window, command=uploadFileFromUser, height = 5,  width = 40, font=("Courier", 8), text = "Upload File for Decision Tree")
 
 # into the window
+userInputFileButton.pack()
 outcome_button.pack()
 pregnancy_age_plot_button.pack()
 BMI_age_plot_button.pack()
@@ -267,7 +315,37 @@ Pedigree_age_button.pack()
 insulin_pedigree_plot_button.pack()
 pedigree_pregancies_plot_button.pack()
 
+#use pandas to print CSV file on terminal 
+diabetesInput = pandas.read_csv("diabetes.csv", delimiter=",")
+#print(diabetesInput)
+diabetesFactors = diabetesInput[['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin','BMI','DiabetesPedigreeFunction','Age']].values 
+diabetesOutcome = diabetesInput['Outcome']
+#print(diabetesOutcome[0:6])
+#print(diabetesFactors[0:6])
+diabetesInput_train, diabetesInput_test, diabetesOutcome_train, diabetesOutcome_test = train_test_split(diabetesFactors, diabetesOutcome, test_size=0.3, random_state=4)
 
-  
+print("The input Type is" + str(type(diabetesInput_test)))
+
+#print(diabetesInput_train.shape)
+#print(diabetesInput_test.shape)
+print(diabetesOutcome_train.shape)
+print(diabetesOutcome_test.shape)
+
+diabetesTree = DecisionTreeClassifier(criterion="entropy", max_depth=4) # entropy makes the decision on a yes or no
+
+diabetesTree.fit(diabetesInput_train, diabetesOutcome_train)
+prediction = diabetesTree.predict(diabetesInput_test)
+
+
+#addPrediction = list(prediction)
+#print(addPrediction)
+print(prediction)
+print("\nDecision Trees's Accuracy: ", metrics.accuracy_score(diabetesOutcome_test, prediction))
+
+def updateGui():
+    window.after(1000, updateGui)
+
+updateGui()
+
 # run the gui
 window.mainloop()
