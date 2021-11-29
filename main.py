@@ -1,8 +1,23 @@
 
 from chartFunction import pregnancy_age_plot, BMI_age_plot, overall_plot, pedigree_insulin_plot, pedigree_pregancies_plot
-from chartFunction import beforeTable, afterTable,trainTable, Pedigree_age_plot, uploadFileFromUser
+from chartFunction import beforeTable, afterTable,trainTable, Pedigree_age_plot, getData
+from Algo import decTreeAlgo
 from tkinter import *
+from tkinter import filedialog
+accScore = ''
+def uploadFileFromUser(event=None):
+    userFile = filedialog.askopenfilename()
+    print('Selected: ', userFile)
+    global filename
+    filename = userFile
+    getData(filename)
+    global accScore
+    accScore = str(decTreeAlgo(filename))
 
+def displayAccScore():
+    if(accScore != ''):
+        treeScore = Label(master = window, text="Accuracy score is: " + accScore, font=("Helvetica", 18))
+        treeScore.pack()
 
 def startGui():
     global window
@@ -25,7 +40,9 @@ def startGui():
     trainTableButton = Button(master = window, command=trainTable, height = 5,  width = 40, font=("Courier", 8), text = "Training Data Table")
     beforeDecTree = Button(master = window, command=beforeTable, height = 5,  width = 40, font=("Courier", 8), text = "Before Tree")
     afterDecTree = Button(master = window, command=afterTable, height = 5,  width = 40, font=("Courier", 8), text = "After Tree")
-    
+    treeScoreButton = Button(master = window, command = displayAccScore, height = 2,  width = 25, font=("Courier", 8), text = "Display Accuracy Score")
+
+    #outputting accuracy score
     # into the window
     userInputFileButton.pack()
     outcome_button.pack()
@@ -37,12 +54,16 @@ def startGui():
     trainTableButton.pack()
     beforeDecTree.pack()
     afterDecTree.pack()
+    treeScoreButton.pack()
     # run the gui
+
+    
     window.mainloop()
     
 
 
 
 if __name__ == '__main__':
+
     startGui()
     

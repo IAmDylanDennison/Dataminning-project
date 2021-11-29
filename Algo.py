@@ -246,3 +246,4 @@ def decTreeAlgo(filename) :
     #print(addPrediction)
     print(prediction)
     print("\nDecision Trees's Accuracy: ", metrics.accuracy_score(diabetesOutcome_test, prediction))
+    return metrics.accuracy_score(diabetesOutcome_test, prediction)

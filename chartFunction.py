@@ -2,12 +2,13 @@
 import csv
 from chartFunction import *
 from tkinter import *
-from tkinter import filedialog
 import matplotlib.pyplot as plt 
 import tkinter.ttk as ttk
-from Algo import decTreeAlgo
+
+
 
 filename = "diabetes.csv"
+accScore = ''
 outcomes = []
 count = 0
 ## positive attributes
@@ -33,14 +34,6 @@ neg_pedigree = []
 neg_age = []
 neg_outcomes = []
 neg_cases = 0
-
-def uploadFileFromUser(event=None):
-    userFile = filedialog.askopenfilename()
-    print('Selected: ', userFile)
-    global filename
-    filename = userFile
-    getData(filename)
-    decTreeAlgo(filename)
     
 
 
