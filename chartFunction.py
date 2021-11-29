@@ -4,6 +4,8 @@ from chartFunction import *
 from tkinter import *
 from tkinter import filedialog
 import matplotlib.pyplot as plt 
+import tkinter.ttk as ttk
+from Algo import decTreeAlgo
 
 filename = "diabetes.csv"
 outcomes = []
@@ -38,11 +40,13 @@ def uploadFileFromUser(event=None):
     global filename
     filename = userFile
     getData(filename)
+    decTreeAlgo(filename)
+    
 
 
 
-def getData(userfile):
-    with open(userfile,'r') as file:
+def getData(filename):
+    with open(filename,'r') as file:
             reader = csv.DictReader(file)
 
             global outcomes
@@ -268,3 +272,199 @@ def Pedigree_age_plot():
 
     #plt.plot(x, y)
     plt.show()
+## before Table Function ############
+def beforeTable():
+
+    root = Tk()
+    root.title("Python - Import CSV File To Tkinter Table")
+    width = 500
+    height = 400
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x = (screen_width/2) - (width/2)
+    y = (screen_height/2) - (height/2)
+    root.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    root.resizable(0, 0)
+
+    TableMargin = Frame(root, width=500)
+    TableMargin.pack(side=TOP)
+    scrollbarx = Scrollbar(TableMargin, orient=HORIZONTAL)
+    scrollbary = Scrollbar(TableMargin, orient=VERTICAL)
+    tree = ttk.Treeview(TableMargin, columns=("Preg", "Glucose", "BloodPressure","SkinThickness","Insulin","BMI","DiabetesPedigreeFunction","Age"), height=400, selectmode="extended", yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
+    scrollbary.config(command=tree.yview)
+    scrollbary.pack(side=RIGHT, fill=Y)
+    scrollbarx.config(command=tree.xview)
+    scrollbarx.pack(side=BOTTOM, fill=X)
+
+    tree.heading('Preg', text="Preg", anchor=W)
+    tree.heading('Glucose', text="Glucose", anchor=W)
+    tree.heading('BloodPressure', text="BloodPressure", anchor=W)
+    tree.heading('SkinThickness', text="SkinThickness", anchor=W)
+    tree.heading('Insulin', text="Insulin", anchor=W)
+    tree.heading('BMI', text="BMI", anchor=W)
+    tree.heading('DiabetesPedigreeFunction', text="DiabetesPedigreeFunction", anchor=W)
+    tree.heading('Age', text="Age", anchor=W)
+
+    tree.column('#0', stretch=NO, minwidth=0, width=0)
+    tree.column('#1', stretch=NO, minwidth=0, width=200)
+    tree.column('#2', stretch=NO, minwidth=0, width=200)
+    tree.column('#3', stretch=NO, minwidth=0, width=300)
+    tree.column('#4', stretch=NO, minwidth=0, width=0)
+    tree.column('#5', stretch=NO, minwidth=0, width=200)
+    tree.column('#6', stretch=NO, minwidth=0, width=200)
+    tree.column('#7', stretch=NO, minwidth=0, width=300)
+
+
+    tree.pack()
+
+
+    with open('testBefore.csv') as f:
+        reader = csv.DictReader(f, delimiter=',')
+        for row in reader:
+            r1 = row['Preg']
+            r2 = row['Glucose']
+            r3 = row['BloodPressure']
+            r4 = row['SkinThickness']
+            r5 = row['Insulin']
+            r6 = row['BMI']
+            r7 = row['DiabetesPedigreeFunction']
+            r8 = row['Age']
+            
+
+            tree.insert("", 0, values=(r1, r2, r3, r4, r5, r6, r7, r8))
+###########################################################################
+
+### After Table Function #####################
+def afterTable():
+    root = Tk()
+    root.title("Python - Import CSV File To Tkinter Table")
+    width = 500
+    height = 400
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x = (screen_width/2) - (width/2)
+    y = (screen_height/2) - (height/2)
+    root.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    root.resizable(0, 0)
+
+    TableMargin = Frame(root, width=500)
+    TableMargin.pack(side=TOP)
+    scrollbarx = Scrollbar(TableMargin, orient=HORIZONTAL)
+    scrollbary = Scrollbar(TableMargin, orient=VERTICAL)
+    tree = ttk.Treeview(TableMargin, columns=("Preg", "Glucose", "BloodPressure","SkinThickness","Insulin","BMI","DiabetesPedigreeFunction","Age", "Outcome"), height=400, selectmode="extended", yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
+    scrollbary.config(command=tree.yview)
+    scrollbary.pack(side=RIGHT, fill=Y)
+    scrollbarx.config(command=tree.xview)
+    scrollbarx.pack(side=BOTTOM, fill=X)
+
+    tree.heading('Preg', text="Preg", anchor=W)
+    tree.heading('Glucose', text="Glucose", anchor=W)
+    tree.heading('BloodPressure', text="BloodPressure", anchor=W)
+    tree.heading('SkinThickness', text="SkinThickness", anchor=W)
+    tree.heading('Insulin', text="Insulin", anchor=W)
+    tree.heading('BMI', text="BMI", anchor=W)
+    tree.heading('DiabetesPedigreeFunction', text="DiabetesPedigreeFunction", anchor=W)
+    tree.heading('Age', text="Age", anchor=W)
+    tree.heading('Outcome', text="Outcome", anchor=W)
+
+    tree.column('#0', stretch=NO, minwidth=0, width=0)
+    tree.column('#1', stretch=NO, minwidth=0, width=200)
+    tree.column('#2', stretch=NO, minwidth=0, width=200)
+    tree.column('#3', stretch=NO, minwidth=0, width=300)
+    tree.column('#4', stretch=NO, minwidth=0, width=0)
+    tree.column('#5', stretch=NO, minwidth=0, width=200)
+    tree.column('#6', stretch=NO, minwidth=0, width=200)
+    tree.column('#7', stretch=NO, minwidth=0, width=300)
+    tree.column('#8', stretch=NO, minwidth=0, width=300)
+
+
+    tree.pack()
+
+
+    with open('testAfter.csv') as f:
+        reader = csv.DictReader(f, delimiter=',')
+        for row in reader:
+            r1 = row['Preg']
+            r2 = row['Glucose']
+            r3 = row['BloodPressure']
+            r4 = row['SkinThickness']
+            r5 = row['Insulin']
+            r6 = row['BMI']
+            r7 = row['DiabetesPedigreeFunction']
+            r8 = row['Age']
+            r9 = row['Outcome']
+    
+            
+
+            tree.insert("", 0, values=(r1, r2, r3, r4, r5, r6, r7, r8, r9))
+
+########################################
+
+##################Traing table function#######################
+def trainTable():
+    root = Tk()
+    root.title("Python - Import CSV File To Tkinter Table")
+    width = 500
+    height = 400
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x = (screen_width/2) - (width/2)
+    y = (screen_height/2) - (height/2)
+    root.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    root.resizable(0, 0)
+
+    TableMargin = Frame(root, width=500)
+    TableMargin.pack(side=TOP)
+    scrollbarx = Scrollbar(TableMargin, orient=HORIZONTAL)
+    scrollbary = Scrollbar(TableMargin, orient=VERTICAL)
+    tree = ttk.Treeview(TableMargin, columns=("Preg", "Glucose", "BloodPressure","SkinThickness","Insulin","BMI","DiabetesPedigreeFunction","Age", "Outcome"), height=400, selectmode="extended", yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
+    scrollbary.config(command=tree.yview)
+    scrollbary.pack(side=RIGHT, fill=Y)
+    scrollbarx.config(command=tree.xview)
+    scrollbarx.pack(side=BOTTOM, fill=X)
+
+    tree.heading('Preg', text="Preg", anchor=W)
+    tree.heading('Glucose', text="Glucose", anchor=W)
+    tree.heading('BloodPressure', text="BloodPressure", anchor=W)
+    tree.heading('SkinThickness', text="SkinThickness", anchor=W)
+    tree.heading('Insulin', text="Insulin", anchor=W)
+    tree.heading('BMI', text="BMI", anchor=W)
+    tree.heading('DiabetesPedigreeFunction', text="DiabetesPedigreeFunction", anchor=W)
+    tree.heading('Age', text="Age", anchor=W)
+    tree.heading('Outcome', text="Outcome", anchor=W)
+
+    tree.column('#0', stretch=NO, minwidth=0, width=0)
+    tree.column('#1', stretch=NO, minwidth=0, width=200)
+    tree.column('#2', stretch=NO, minwidth=0, width=200)
+    tree.column('#3', stretch=NO, minwidth=0, width=300)
+    tree.column('#4', stretch=NO, minwidth=0, width=0)
+    tree.column('#5', stretch=NO, minwidth=0, width=200)
+    tree.column('#6', stretch=NO, minwidth=0, width=200)
+    tree.column('#7', stretch=NO, minwidth=0, width=300)
+    tree.column('#8', stretch=NO, minwidth=0, width=300)
+
+
+    tree.pack()
+
+
+    with open('train.csv') as f:
+        reader = csv.DictReader(f, delimiter=',')
+        for row in reader:
+            r1 = row['Preg']
+            r2 = row['Glucose']
+            r3 = row['BloodPressure']
+            r4 = row['SkinThickness']
+            r5 = row['Insulin']
+            r6 = row['BMI']
+            r7 = row['DiabetesPedigreeFunction']
+            r8 = row['Age']
+            r9 = row['Outcome']
+    
+            
+
+            tree.insert("", 0, values=(r1, r2, r3, r4, r5, r6, r7, r8, r9))
+
+
+
+
+################################################
