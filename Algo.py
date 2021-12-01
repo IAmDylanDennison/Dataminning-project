@@ -1,11 +1,15 @@
 
+from tkinter.font import Font
 import pandas 
 from sklearn import metrics
 
 from sklearn.metrics import confusion_matrix 
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn import tree
 from sklearn.preprocessing import MinMaxScaler
+
+import matplotlib.pyplot as plt 
 
 def decTreeAlgo(filename) :
     #use pandas to print CSV file on terminal 
@@ -15,7 +19,22 @@ def decTreeAlgo(filename) :
     diabetesOutcome = diabetesInput['Outcome']
     #print(diabetesOutcome[0:6])
     #print(diabetesFactors[0:6])
+
+    ## running the test and training data
     diabetesInput_train, diabetesInput_test, diabetesOutcome_train, diabetesOutcome_test = train_test_split(diabetesFactors, diabetesOutcome, test_size=0.3, random_state=4)
+
+    print(diabetesOutcome_train.shape)
+    print(diabetesOutcome_test.shape)
+
+    diabetesTree = DecisionTreeClassifier(criterion="entropy", max_depth=4) # entropy makes the decision on a yes or no
+
+    diabetesTree.fit(diabetesInput_train, diabetesOutcome_train)
+    prediction = diabetesTree.predict(diabetesInput_test)
+    plt.figure(figsize=(15,8))  # set plot size (denoted in inches)
+    plt.title("Tree")
+    plot_tree(diabetesTree, fontsize=10)
+    plt.show()
+
     ################
     testPregancies = []
     testGlucose = []
@@ -35,14 +54,40 @@ def decTreeAlgo(filename) :
     trainDPF = []
     trainAge = []
 
+    global negativePredictTest
+    global positivePredictTest
+    global negativeTestOutcome
+    global positiveTestOutcome
+
+    negativePredictTest = []
+    positivePredictTest = []
+    
+    negativeTestOutcome = []
+    positiveTestOutcome = []
 
     trainOutcome = []
     testOutcome = []
+    predictionOutcome = []
 
     for i in diabetesOutcome_test:
         testOutcome.append(i)
     for i in diabetesOutcome_train:
         trainOutcome.append(i)
+    for i in prediction:
+        predictionOutcome.append(i)
+
+    for i in predictionOutcome:
+        if(i == 1):
+            positivePredictTest.append(i)
+        else:
+            negativePredictTest.append(i)
+
+    for i in testOutcome:
+        if(i == 1):
+            positiveTestOutcome.append(i)
+        else:
+            negativeTestOutcome.append(i)
+
 
     ## Inputing test data#################
     for i in range(diabetesInput_test.shape[1]):
@@ -223,23 +268,28 @@ def decTreeAlgo(filename) :
                     "BMI": inputBMI,
                     "DiabetesPedigreeFunction":inputDPF,
                     "Age": inputAge,
+                    "Predicted Outcome" : predictionOutcome,
                     "Outcome": testOutcome}
         df = pandas.DataFrame(dictAfter)
         df.to_csv('testAfter.csv', index=False)
+
         file.close()
 
     ##################################
     print("The input Type is" + str(type(diabetesInput_test)))
 
+
+
+
     #print(diabetesInput_train.shape)
     #print(diabetesInput_test.shape)
-    print(diabetesOutcome_train.shape)
-    print(diabetesOutcome_test.shape)
+   # print(diabetesOutcome_train.shape)
+    #print(diabetesOutcome_test.shape)
 
-    diabetesTree = DecisionTreeClassifier(criterion="entropy", max_depth=4) # entropy makes the decision on a yes or no
+    #diabetesTree = DecisionTreeClassifier(criterion="entropy", max_depth=4) # entropy makes the decision on a yes or no
 
-    diabetesTree.fit(diabetesInput_train, diabetesOutcome_train)
-    prediction = diabetesTree.predict(diabetesInput_test)
+    #diabetesTree.fit(diabetesInput_train, diabetesOutcome_train)
+    #prediction = diabetesTree.predict(diabetesInput_test)
 
 
     #addPrediction = list(prediction)
@@ -247,3 +297,4 @@ def decTreeAlgo(filename) :
     print(prediction)
     print("\nDecision Trees's Accuracy: ", metrics.accuracy_score(diabetesOutcome_test, prediction))
     return metrics.accuracy_score(diabetesOutcome_test, prediction)
+

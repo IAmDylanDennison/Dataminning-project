@@ -14,6 +14,7 @@ def uploadFileFromUser(event=None):
     getData(filename)
     global accScore
     accScore = str(decTreeAlgo(filename))
+    
 
 def displayAccScore():
     if(accScore != ''):

@@ -1,9 +1,11 @@
-
+    
 import csv
 from chartFunction import *
 from tkinter import *
 import matplotlib.pyplot as plt 
 import tkinter.ttk as ttk
+
+
 
 
 
@@ -41,6 +43,7 @@ neg_cases = 0
 def getData(filename):
     with open(filename,'r') as file:
             reader = csv.DictReader(file)
+
 
             global outcomes
             global count
@@ -270,8 +273,8 @@ def beforeTable():
 
     root = Tk()
     root.title("Python - Import CSV File To Tkinter Table")
-    width = 500
-    height = 400
+    width = 1500
+    height = 700
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     x = (screen_width/2) - (width/2)
@@ -331,8 +334,8 @@ def beforeTable():
 def afterTable():
     root = Tk()
     root.title("Python - Import CSV File To Tkinter Table")
-    width = 500
-    height = 400
+    width = 1500
+    height = 700
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     x = (screen_width/2) - (width/2)
@@ -344,7 +347,7 @@ def afterTable():
     TableMargin.pack(side=TOP)
     scrollbarx = Scrollbar(TableMargin, orient=HORIZONTAL)
     scrollbary = Scrollbar(TableMargin, orient=VERTICAL)
-    tree = ttk.Treeview(TableMargin, columns=("Preg", "Glucose", "BloodPressure","SkinThickness","Insulin","BMI","DiabetesPedigreeFunction","Age", "Outcome"), height=400, selectmode="extended", yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
+    tree = ttk.Treeview(TableMargin, columns=("Preg", "Glucose", "BloodPressure","SkinThickness","Insulin","BMI","DiabetesPedigreeFunction","Age","Predicted Outcome", "Outcome"), height=400, selectmode="extended", yscrollcommand=scrollbary.set, xscrollcommand=scrollbarx.set)
     scrollbary.config(command=tree.yview)
     scrollbary.pack(side=RIGHT, fill=Y)
     scrollbarx.config(command=tree.xview)
@@ -358,6 +361,7 @@ def afterTable():
     tree.heading('BMI', text="BMI", anchor=W)
     tree.heading('DiabetesPedigreeFunction', text="DiabetesPedigreeFunction", anchor=W)
     tree.heading('Age', text="Age", anchor=W)
+    tree.heading('Predicted Outcome', text="Predicted Outcome", anchor=W)
     tree.heading('Outcome', text="Outcome", anchor=W)
 
     tree.column('#0', stretch=NO, minwidth=0, width=0)
@@ -369,6 +373,7 @@ def afterTable():
     tree.column('#6', stretch=NO, minwidth=0, width=200)
     tree.column('#7', stretch=NO, minwidth=0, width=300)
     tree.column('#8', stretch=NO, minwidth=0, width=300)
+    tree.column('#9', stretch=NO, minwidth=0, width=300)
 
 
     tree.pack()
@@ -384,12 +389,14 @@ def afterTable():
             r5 = row['Insulin']
             r6 = row['BMI']
             r7 = row['DiabetesPedigreeFunction']
-            r8 = row['Age']
-            r9 = row['Outcome']
+            r8 = row['Age'],
+            r9 = row['Predicted Outcome']
+
+            r10 = row['Outcome']
     
             
 
-            tree.insert("", 0, values=(r1, r2, r3, r4, r5, r6, r7, r8, r9))
+            tree.insert("", 0, values=(r1, r2, r3, r4, r5, r6, r7, r8, r9, r10))
 
 ########################################
 
@@ -397,8 +404,8 @@ def afterTable():
 def trainTable():
     root = Tk()
     root.title("Python - Import CSV File To Tkinter Table")
-    width = 500
-    height = 400
+    width = 1500
+    height = 700
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     x = (screen_width/2) - (width/2)
