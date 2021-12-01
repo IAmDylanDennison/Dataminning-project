@@ -1,13 +1,9 @@
 
-from tkinter.font import Font
 import pandas 
 from sklearn import metrics
-
-from sklearn.metrics import confusion_matrix 
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier, plot_tree
-from sklearn import tree
-from sklearn.preprocessing import MinMaxScaler
+
 
 import matplotlib.pyplot as plt 
 
