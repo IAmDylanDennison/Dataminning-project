@@ -10,13 +10,6 @@ Source: https://www.cdc.gov/diabetes/pdfs/data/statistics/national-diabetes-stat
 
 Using Tkinter, we created a GUI that allows users to predict the diabetes outcome of females.
 User uploads a .csv file with the varibles 
-Number of Pregnancies
-Glucose
-Blood Pressure
-Skin Thickness
-Insulin
-BMI (Body Mass Index)
-Diabetes Pedigree Function
-Age
+Number of Pregnancies, Glucose, Blood Pressure, Skin Thickness, Insulin, BMI (Body Mass Index), Diabetes Pedigree Function, and Age
 
 Used scikit learn regression tree and mathpotlib for visual representation. 
