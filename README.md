@@ -12,4 +12,4 @@ Using Tkinter, we created a GUI that allows users to predict the diabetes outcom
 User uploads a .csv file with the varibles 
 Number of Pregnancies, Glucose, Blood Pressure, Skin Thickness, Insulin, BMI (Body Mass Index), Diabetes Pedigree Function, and Age
 
-Used scikit learn regression tree and mathpotlib for visual representation. 
+Used scikit learn decision tree and mathpotlib for visual representation. 
